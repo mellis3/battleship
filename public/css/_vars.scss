@@ -1,0 +1,99 @@
+//vars
+$spacer-unit: 10px;
+
+//screen breakpoints
+$micro      : 321px;
+$tiny       : 425px;
+$smallTiny  : 480px;
+$small      : 700px;
+$mediumSmall: 800px;
+//$medium     : 1025px;
+$mediumLarge: 970px;
+$medium     : 1100px;
+$large      : 1280px;
+$xlarge     : 1500px;
+
+$boardMax   : 580px;
+
+//colors
+$colors: (
+    background              : #1d1d1f,
+    grid-background         : #5b5b67,
+    cell-background         : #232329,
+    text-blue               : #368eef,
+    text-onDark             : #999,
+    player1Background       : #1976d2,
+    player1Dark             : #004ba0,
+    player1Light            : #63a4ff,
+    player2Background       : #d32f2f,
+    player2Dark             : #9a0007,
+    player2Light            : #ff6659,
+    ship                    : white,
+    hit                     : #c54a4a,
+    error                   : #c54a4a,
+    warning                 : #c19e4d
+);
+
+$paddingUnit: 1em;
+$shadowSize: 7vh;
+
+$perspective: 1200px;
+
+/* z-indexes */
+$layers: (
+	popupBox:7000,
+	aboveNav:6000,
+	nav: 5000,
+	subnav: 4000,
+	moduleControls: 2000,
+	topContent:1050,
+    normalContent: 1000,
+    underContent: 900
+);
+
+/* font sizes */
+$defaultFontSize: 16px;
+$fontSize: (
+    sectionTitleVariable   : 4.9vw,
+    sectionTitle   : 3.0rem,
+	sectionTag     : 3.0rem,
+	headline       : 1.75rem,
+	subhead        : 1.25rem,
+    focus          : 1.125rem,
+	body           : 1.0667rem,
+    select         : 0.875rem,
+    nofocus        : 0.875rem,
+    nav            : 0.75rem,
+	instruct       : 0.75rem,
+    submenu        : 0.75rem,
+    tiny           : 0.75rem,
+    label          : 0.625rem,
+    iconCaption    : 0.625rem,
+    micro          : 0.625rem
+);
+
+/* font weights */
+$fontWeight: (
+    extraLight  : 100,
+    light       : 300,
+    normal      : 400,
+    medium      : 600,
+    bold        : 700,
+    heavy       : 800,
+    black       : 900
+);
+
+$breakpoints: (
+    mobileSmall: 320px,
+    mobileLarge: 450px,
+    tablet: 900px,
+    desktopSmall: 1100px,
+    desktopLarge: 1300px
+    //or name these by what happens at each breakpoint, like mobileNav etc
+);
+
+$times: (
+    hover: 0.3s,
+    transition: 0.5s,
+    long: 1s
+);

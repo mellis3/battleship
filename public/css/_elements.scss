@@ -1,0 +1,549 @@
+//element styles
+
+ul{
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+img{
+    display: block;
+}
+
+.hide{
+    display:none;
+}
+
+
+
+//colors
+$foreground-colors: (
+    background          : background,
+    on-dark             : text-onDark,
+    blue                : text-blue
+);
+@each $item, $value in $foreground-colors{
+    .color-#{$item}{
+        color: color("#{$value}");
+    }
+    .background-#{$item}{
+        background: color("#{$value}");
+    }
+}
+
+
+
+
+//borders
+$borders: (
+    border-top: solid 1px,
+    border-right: solid 1px,
+    border-bottom: solid 1px,
+    border-left: solid 1px
+);
+@each $item, $value in $borders{
+    .#{$item}{
+        #{$item}: $value;
+    }
+}
+
+
+//underline
+.dash-below{
+    position: relative;
+    padding-bottom: 0.45em;
+    margin-bottom: 0.35em;
+    &:after{
+        content:"";
+        position: absolute;
+        left: 0;
+        width: 2em;
+        height: 0.2em;
+        top: calc(100% - 0.2em);
+        background-color: currentColor;
+    }
+    &.dash-large{
+        padding-bottom: 0.8em;
+        margin-bottom: 0.7em;
+        &:after{
+            width: 3em;
+            height: 0.3em;
+            top: calc(100% - 0.3em);
+        }
+    }
+    &.dash-center{
+        &:after{
+            left:50%;
+            transform: translateX(-50%);
+        }
+    }
+    &.dash-light{
+        &:after{
+            background-color: rgba( white, 0.5 );
+        }
+    }
+}
+
+
+
+.main-wrap{
+    background: color("background");
+    perspective: $perspective;
+}
+
+.header{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+$boardPieceSize: 20em;
+$maxBoardPieceSize: 290px; //occurs at 580px VH
+.board{
+    &-group{
+        height: 100vh;
+        //perspective: $perspective;
+        //perspective-origin: bottom center;
+        transition: transform time("long");
+        will-change: transform;
+        transform-style: preserve-3d;
+        &[data-activeplayer="1"]{
+            //transform: scale(0.65);
+        }
+        &[data-activeplayer="2"]{
+            transform: translate3d(0,-50%,-50vh) rotateX(90deg);
+        }
+    }
+    &-item{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        perspective: $perspective;
+        //perspective-origin: center 17vw;
+        overflow: hidden;
+        &-inner{
+            width: $boardPieceSize;
+            height: $boardPieceSize;
+            //min-width: 400px;
+            max-height: $maxBoardPieceSize;
+            perspective: $perspective;
+            transform-style: preserve-3d;
+            transition: transform time("transition");
+            @include between( $large, 1500px ){
+                width: $boardPieceSize * 0.9;
+                height: $boardPieceSize * 0.9;
+            }
+            @include between( $medium, $large ){
+                width: $boardPieceSize * 0.825;
+                height: $boardPieceSize * 0.825;
+            }
+            @include smaller( $medium ){
+                width: $boardPieceSize * 0.75;
+                height: $boardPieceSize * 0.75;
+            }
+        }
+
+        .player-label{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    &-top, &-bottom{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        transition: opacity time("hover");
+    }
+    &-top{
+        top: 0;
+        &[data-disable="true"]{
+            pointer-events: none;
+        }
+        .grid-cell{
+            position: relative;
+
+            //once cell has been fired to - prevent it from being clicked again
+            &.miss, &.hit{
+                pointer-events: none;
+            }
+        }
+    }
+
+    //bottom board
+    //where users place their ships
+    &-bottom{
+        bottom: 0;
+        @include larger( $large ){
+            transform: rotateX(82deg) translate3d(0%, 55%, -#{ $boardPieceSize * 0.45 });
+        }
+        @include between( $medium, $large ){
+            transform: rotateX(82deg) translate3d(0%, 55%, -#{ $boardPieceSize * 0.41 });
+        }
+        @include smaller( $medium ){
+            transform: rotateX(82deg) translate3d(0%, 55%, -#{ $boardPieceSize * 0.375 });
+        }
+
+        //when selecting first square allow hover effect to let users know they can select anywhere
+        &[data-state="selectStartSquare"]{
+            .grid-cell{
+                &:hover{
+                    background: rgba( black, 0.15 );
+                }
+                &.active{
+                    background: rgba( black, 0.3 );
+                }
+            }
+        }
+
+        //when selected end square allow hover effect to let users know which direct the ship will go
+        &[data-state="selectEndSquare"]{
+            .grid-cell{
+                &.active{
+                    background: rgba( black, 0.3 );
+                }
+                &.available{
+                    background: rgba( black, 0.1 );
+                    &:hover{
+                        background: rgba( black, 0.2 );
+                    }
+                }
+            }
+        }
+
+        .grid-cell{
+            &.containsShip{
+                background: gray;
+            }
+        }
+    }
+}
+
+.grid{
+    &-wrap{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        .grid{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &-guidelines{
+        border: solid 1px rgba( black, 0.1 );
+    }
+    &-cell{
+        border: solid 1px rgba( black, 0.1 );
+        background: transparent;
+        transition: background time("hover");
+        will-change: background;
+
+        &.hit, &.miss{
+            position: relative;
+            //show status
+            &:after{
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                transform: translateY(-50%);
+                font-size: 0.875em;
+                text-align: center;
+            }
+        }
+
+        &.miss{
+            &:after{
+                content: "+";
+                transform: translateY(-50%) rotate(45deg);
+                font-size: 3em;
+                color: rgba( black, 0.25 );
+            }
+        }
+        &.hit{
+            color: white;
+            background: rgba( black, 0.35 );
+            &.containsShip{
+                background: rgba( black, 0.35 );
+            }
+            &:after{
+                content: "Hit!";
+            }
+        }
+    }
+}
+
+.axis{
+    color: rgba( black, 0.25 );
+    &-x{
+        transform: translateY( -150% );
+    }
+    &-y{
+        position: absolute;
+        left: 0;
+        height: 100%;
+        transform: translate(-240%, -2%);
+    }
+}
+
+
+@mixin drawer{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20em;
+    height: 100%;
+    transform: translateX( 100% );
+    transition: transform time("transition");
+    will-change: transform;
+}
+
+.ship{
+    &-drawer{
+        @include drawer;
+    }
+    &-item{
+        border-radius: 0.25em;
+        transition: background time("hover");
+        overflow: hidden;
+        $shipSize: 1.5em;
+
+        & + &{
+            margin-top: 1em;
+        }
+
+        &:not(.active):not(.complete){
+            &:hover{
+                background: rgba( black, 0.1 );
+            }
+        }
+
+
+        &-inner{
+            position: relative;
+            transition: transform time("hover");
+            pointer-events: none;
+            &:before{
+                content:"";
+                display: block;
+                height: $shipSize;
+                background: color( "ship" );
+            }
+            &:after{
+                content: "- PLACED -";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: calc( 100% - 4px);
+                height: calc( 100% - 4px );
+                transform: translateX(-100%);
+                font-weight: bold;
+                border: solid 2px rgba( black, 0.15 );
+                line-height: 4.75em;
+                text-align: center;
+            }
+        }
+        &[data-length="2"]{
+            .ship-item-inner:before{
+                width: $shipSize * 2;
+            }
+        }
+        &[data-length="3"]{
+            .ship-item-inner:before{
+                width: $shipSize * 3;
+            }
+        }
+        &[data-length="4"]{
+            .ship-item-inner:before{
+                width: $shipSize * 4;
+            }
+        }
+        &[data-length="5"]{
+            .ship-item-inner:before{
+                width: $shipSize * 5;
+            }
+        }
+
+        //when currently placing the item
+        &.active{
+            background: rgba( black, 0.2 );
+        }
+
+        //when item is placed
+        &.complete{
+            .ship-item-inner{
+                transform: translateX(100%);
+            }
+        }
+    }
+
+    //ship on grid
+}
+
+
+.instructions{
+    @include drawer;
+    transition-delay: 1s;
+
+    .cardTitle{
+        font-size: 1em;
+    }
+}
+
+
+.topDownMessage{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-100%);
+    transition: transform time("transition");
+    background: #191a23;
+    color: white;
+    z-index: layer( "moduleControls" );
+}
+
+.switchPlayerMessage{
+    transition-delay: 0.25s;
+    .headline{
+        opacity: 0;
+        transition: opacity 0.1s;
+    }
+    &[data-state="true"]{
+        transform: translateY(0);
+        .headline{
+            opacity: 1;
+        }
+    }
+}
+
+
+//player 1
+[data-player="1"]{
+    background: color( "player1Background" );
+    color: color( "player1Light" );
+    .cardTitle{
+        background: color( "player1Dark" );
+    }
+    .ship-drawer, .instructions{
+        background: rgba( color( "player1Dark" ), 0.7 );
+    }
+    .instructions{
+        .cardTitle{
+            background: none;
+        }
+        .ship-item-inner:before{
+            background: color( "player1Dark" );
+        }
+    }
+}
+
+//player 2
+[data-player="2"]{
+    background: color( "player2Background" );
+    color: color( "player2Light" );
+    transform: translate3d(0, 100%, 0) rotateX(-90deg);
+    transform-origin: top center;
+    .cardTitle{
+        background: color( "player2Dark" );
+    }
+    .ship-drawer, .instructions{
+        background: rgba( color( "player2Dark" ), 0.7 );
+    }
+    .instructions{
+        .cardTitle{
+            background: none;
+        }
+        .ship-item-inner:before{
+            background: color( "player2Dark" );
+        }
+    }
+}
+
+
+//steps
+//place ships
+[data-state="placeships"]{
+    .board{
+        &-item-inner{
+            @include larger( $large ){
+                transform: rotateX(-25deg) translate3d(-3em, -145%, 40vh);
+            }
+            @include between( $medium, $large ){
+                transform: rotateX(-25deg) translate3d(-5em, -145%, 40vh);
+            }
+            @include smaller( $medium ){
+                transform: rotateX(-25deg) translate3d(-5em, -145%, 40vh);
+            }
+        }
+        &-top{
+            opacity: 0;
+        }
+    }
+    .ship-drawer{
+        transform: translateX( 0 );
+    }
+}
+
+//fire at each other
+[data-state="fire"]{
+    .board{
+        &-item-inner{
+            @include larger( $large ){
+                transform: translate3d(-4em, -3em, 0);
+            }
+            @include between( $medium, $large ){
+                transform: translate3d(-6em, -4em, 0);
+            }
+            @include smaller( $medium ){
+                transform: translate3d(-8em, -6em, 0);
+            }
+        }
+        &-top, &-bottom{
+            &:after{
+                position: absolute;
+                top:50%;
+                right: -1em;
+                transform: translate(100%, -50%);
+                max-width: 4em;
+                font-weight: bold;
+                color: rgba( black, 0.25 );
+            }
+        }
+        &-top{
+            &:after{
+                content: "Enemy Ships";
+            }
+            .grid-cell{
+                &:not(.miss):not(.hit):hover{
+                    background: rgba( black, 0.15 );
+                }
+            }
+        }
+        &-bottom{
+            perspective: $perspective;
+            &:after{
+                content: "Your Ships";
+                transform: translate(100%, -50%) rotateX(-64deg) scale(0.85, 3.8)
+            }
+            .grid-axis{
+                opacity: 0;
+            }
+        }
+    }
+    .instructions{
+        transform: translateX( 0 );
+    }
+}
+
+//winner
+[data-state="win"]{
+    .winner{
+        transform: translateY(0%);
+    }
+}

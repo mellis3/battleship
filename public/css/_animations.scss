@@ -1,0 +1,11 @@
+@keyframes goToPlayer2{
+    10%{
+        transform: scale( 0.75 ) rotateX( 0 );
+    }
+    90%{
+        transform: scale( 0.75 ) rotateX( 90deg );
+    }
+    100%{
+        transform: scale( 1 ) rotateX( 90deg );
+    }
+}

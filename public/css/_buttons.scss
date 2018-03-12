@@ -1,0 +1,200 @@
+
+
+//buttons
+a, button{
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+}
+button{
+    -webkit-appearance:none;
+    border:0;
+    outline:0;
+    background:none;
+    padding:0;
+}
+
+.button{
+    display: inline-block;
+    position: relative;
+    border:solid 1px currentColor;
+    border-radius: 0;
+    font-weight: fontWeight("bold");
+    line-height: 1.25em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    overflow: hidden;
+
+    &:after{
+        content:"";
+        position: absolute;
+        top:0;
+        left:0;
+        width: 150%;
+        height: 600%;
+        background: currentColor;
+        transform: translate(-57%, 28%) rotate(30deg);
+        transition: transform time("hover");
+    }
+
+    &:hover, &.active{
+        &:not(.textOnly){
+            &:after{
+                transform: translate(-20%, -43%) rotate(30deg);
+            }
+            .buttonInner{
+                color: white;
+            }
+        }
+
+    }
+
+    &.extraLarge{
+        font-size: fontSize("body");
+    }
+    &.primary{
+        font-size: fontSize("nofocus");
+        padding: 1em 2em;
+    }
+    &.secondary{
+        font-size: fontSize("tiny");
+        padding: 0.7em 2em;
+    }
+    &.small{
+        font-size: fontSize("micro");
+        padding: 0.55em 1em 0.6em;
+        &.hasIcon{
+            padding-top: 0.6em;
+            padding-bottom: 0.55em;
+            .icon{
+                transform: translateY(-0.1em);
+            }
+        }
+        &:after{
+            transform: translate(-87%, 28%) rotate(30deg);
+        }
+    }
+    &.tiny{
+        font-size: 0.525rem;
+        padding: 0.3em 0.6em 0.25em;
+        &.hasIcon{
+            padding-left: 0.6em;
+        }
+        .icon{
+            width: 1.5em;
+            height: 1.5em;
+            margin-right: 0.35em;
+        }
+    }
+
+    &.hasIcon{
+        padding-left: 1.5em;
+    }
+
+    &.iconOnly{
+        display: inline-block;
+        vertical-align: middle;
+        border:0;
+        padding:0;
+        font-size: fontSize("micro");
+        .icon{
+            margin:0;
+        }
+    }
+
+    &.textOnly{
+        border:0;
+        padding:0;
+        font-size: fontSize("nofocus");
+        &:hover{
+            text-decoration: underline;
+        }
+        &-small{
+            font-size: fontSize("micro");
+        }
+    }
+
+    &.arrowLeft, &.arrowRight, &.arrowDown{
+        position: relative;
+        .buttonInner{
+            &:before, &:after{
+                display: inline-block;
+                position: relative;
+                width: 0.5em;
+                height: 0.5em;
+                border-top: solid 2px;
+                border-right: solid 2px;
+                transition: transform time("hover");
+            }
+        }
+
+    }
+    &.arrowLeft{
+        position: relative;
+        .buttonInner{
+            padding-left: 0.5em;
+            &:before{
+                content:"";
+                transform: rotate(-135deg);
+                margin-right: 0.5em;
+                margin-top: 0.1em;
+            }
+        }
+        &.textOnly{
+            .buttonInner{
+                padding-left: 2em;
+                &:before{
+                    margin-right: 0.3em;
+                }
+            }
+        }
+    }
+    &.arrowRight{
+        .buttonInner{
+            padding-right: 0.5em;
+            &:after{
+                content:"";
+                margin-left:0.5em;
+                margin-top: 0.1em;
+                transform: rotate(45deg);
+            }
+        }
+    }
+    &.arrowDown{
+        /*
+        &:before{
+            content:"";
+            top: -0.15em;
+            margin-left: 1em;
+            transform: rotate(135deg);
+            transition: transform time("hover");
+        }
+        */
+    }
+
+
+    &.gray{
+        color: #717494;
+    }
+
+    & + .button{
+        margin-left: 1em;
+    }
+
+
+    .buttonInner{
+        position: relative;
+        transition: color time("hover");
+        z-index: layer("normalContent");
+        pointer-events: none;
+    }
+
+    .icon{
+        stroke: currentColor;
+        width: 1.7em;
+        height: 1.7em;
+        margin-right: 0.5em;
+
+    }
+}

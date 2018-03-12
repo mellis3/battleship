@@ -1,0 +1,162 @@
+html{
+    font-family: 'Roboto', Arial, sans-serif;
+    @media (min-width:$medium){
+        font-size: $defaultFontSize;
+    }
+    @include between($mediumSmall, $medium){
+        font-size: $defaultFontSize * 0.9;
+    }
+    @include between($small, $mediumSmall){
+        font-size: $defaultFontSize * 0.85;
+    }
+    @include smaller($small){
+        font-size: $defaultFontSize * 0.8;
+    }
+}
+body{
+    -webkit-text-size-adjust: none;
+}
+
+
+// section title
+h1, .headline{
+    font-size: fontSize("sectionTitleVariable");
+    font-weight: fontWeight("bold");
+    line-height: 1.5em;
+    @include between($small, $medium){
+        font-size: fontSize("sectionTitle");
+    }
+    @include smaller($small){
+        font-size: fontSize("sectionTag");
+    }
+}
+// section subtitle or tagline
+h2, .sectionTitleLarge{
+    font-weight: fontWeight("bold");
+    font-size: fontSize("sectionTag");
+    line-height: 1.5em;
+}
+
+h3, .sectionTitle{
+    font-size: fontSize("headline");
+    font-weight: fontWeight("bold");
+    line-height: 1.5em;
+}
+
+h4, .cardTitle{
+    font-size: fontSize("subhead");
+    //font-weight: fontWeight("light");
+    letter-spacing: 0.02em;
+    line-height: 1.5em;
+}
+h5, .elementTitle{
+    font-size: fontSize("nofocus");
+    line-height: 1.5em;
+}
+h6, .sectionTitleSmall{
+    font-size: fontSize("body");
+    font-weight: fontWeight("medium");
+    line-height: 1.5em;
+}
+
+.small, small{
+    font-size:0.75em;
+}
+.xsmall{
+    font-size: 0.625em;
+}
+
+sup{
+    position: relative;
+    top: -0.3em;
+    font-size: 0.7em;
+}
+
+p{
+    font-size: fontSize("body");
+    line-height: 1.6rem;
+    font-weight: 400;
+    margin: 0;
+    & + p{
+        margin-top: 0.75em;
+    }
+    &.focus{
+        font-size: fontSize("focus");
+        line-height: 1.8rem;
+    }
+    &.nofocus{
+        font-size: fontSize("nofocus");
+        line-height: 1.4rem;
+    }
+    &.tiny{
+        font-size: fontSize("tiny");
+        line-height: 1rem;
+    }
+}
+
+.largeLabel{
+    position: relative;
+    &.showDash{
+        padding-bottom: 0.75rem;
+        margin-bottom: 1rem;
+        &:after{
+            content:"";
+            position: absolute;
+            bottom:0;
+            left:0;
+            width: 1.25rem;
+            height: 0.25rem;
+            background: currentColor;
+        }
+    }
+}
+
+
+input, textarea{
+    font-family: inherit;
+}
+
+
+//text styling
+.block{
+    display:block;
+}
+.bold{
+    font-weight: fontWeight("bold");
+    &.number, &.lato{
+        font-weight: fontWeight("black")
+    }
+}
+.semibold{
+    font-weight: fontWeight("medium");
+}
+.regular{
+    font-weight: fontWeight("normal");
+}
+.uppercase{
+    text-transform: uppercase;
+    &.add-spacing{
+        letter-spacing: 0.1em;
+    }
+}
+.capitalize{
+    text-transform: capitalize;
+}
+
+
+//text align
+$text-align: (
+    center, right
+);
+@each $value in $text-align{
+    .text-align-#{$value}{
+        text-align: #{$value};
+    }
+}
+
+
+//icons
+.icon{
+    fill: currentColor;
+    stroke: currentColor;
+}

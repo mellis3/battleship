@@ -1,0 +1,520 @@
+.contentWrap{
+    @include larger( $large ){
+        margin-top: 5rem;
+        &.dark{
+            margin-top: 0.75rem;
+            padding-top: 4rem;
+        }
+    }
+    @include between( $mediumSmall, $large ){
+        margin-top: 4rem;
+        &.dark{
+            margin-top: 0.8rem;
+            padding-top: 3.2rem;
+        }
+    }
+    @include smaller( $mediumSmall ){
+        margin-top: 2rem;
+        &.dark{
+            margin-top: 0.25rem;
+            padding-top: 1.75rem;
+        }
+    }
+
+    &.dark{
+        background: color("darkest");
+    }
+}
+
+.pos{
+    &-relative{
+        position: relative;
+    }
+    &-absolute{
+        position: absolute;
+    }
+}
+
+
+//grouping
+//flexbox
+.flex{
+    display:flex;
+    //wrap
+    &.flex-wrap{
+        flex-wrap: wrap;
+    }
+    &.flex-column{
+        flex-direction: column;
+    }
+    &.mobile-flex-wrap{
+        @include smaller($small){
+            flex-wrap: wrap;
+        }
+    }
+    //align items
+    &.matchHeight{
+        align-items: stretch;
+    }
+    &.vertical-center{
+        align-items: center;
+    }
+    &.align-start{
+        align-items: flex-start;
+    }
+    &.align-end{
+        align-items: flex-end;
+    }
+    //justify items
+    &.justify-start{
+        justify-content: flex-start;
+    }
+    &.justify-end{
+        justify-content: flex-end;
+    }
+    &.justify-center{
+        justify-content: center;
+    }
+    &.justify-between{
+        justify-content: space-between;
+    }
+    &.justify-around{
+        justify-content: space-around;
+    }
+    &.threeColumn{
+        & > .column{
+            width: calc(100% / 3);
+        }
+    }
+
+    //take up remaining space
+    .flex-grow{
+        flex-grow:1;
+    }
+
+}
+
+//everything after this element aligns right
+.flex-align-right{
+    margin-left: auto;
+}
+
+
+//grid
+.grid{
+    display: grid;
+    grid-template-rows: auto;
+
+    &[data-columns="8"]{
+        grid-template-columns: repeat(8, 1fr);
+    }
+    &[data-rows="8"]{
+        grid-template-rows: repeat(8, 1fr);
+    }
+
+    //span X number of columns
+    &.span2{
+        grid-column-start: span 2;
+        &.matchColumns{
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    &.span3{
+        grid-column-start: span 3;
+        &.matchColumns{
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+    &.span4{
+        grid-column-start: span 4;
+        &.matchColumns{
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+
+    &.spacing-xxlarge{
+        grid-column-gap: $paddingUnit * 6;
+        grid-row-gap: $paddingUnit * 6;
+    }
+    &.spacing-xlarge{
+        grid-column-gap: $paddingUnit * 4;
+        grid-row-gap: $paddingUnit * 4;
+    }
+    &.spacing-large{
+        grid-column-gap: $paddingUnit * 2;
+        grid-row-gap: $paddingUnit * 2;
+    }
+    &.spacing-medium{
+        grid-column-gap: $paddingUnit;
+        grid-row-gap: $paddingUnit;
+    }
+    &.spacing-small{
+        grid-column-gap: $paddingUnit / 2;
+        grid-row-gap: $paddingUnit / 2;
+    }
+
+    &.spacing-x-xlarge{
+        grid-column-gap: $paddingUnit * 4;
+    }
+
+    &.spacing-y-xlarge{
+        grid-row-gap: $paddingUnit * 4;
+    }
+    &.spacing-y-medium{
+        grid-row-gap: $paddingUnit;
+    }
+}
+
+
+
+
+
+
+
+//alignment
+
+    //center self
+    .align{
+        &-left{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        &-right{
+            position: absolute;
+            top:0;
+            right:0;
+        }
+        &-bottom{
+            position: absolute;
+            bottom:0;
+        }
+        &-centerX{
+            position: absolute;
+            top:0;
+            left:50%;
+            transform: translateX(-50%);
+        }
+        &-centerY{
+            position: absolute;
+            top:50%;
+            left:0%;
+            transform: translateY(-50%);
+        }
+        &-centerXY{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+    }
+
+    //center children
+    .center{
+        &-x{
+            & > *{
+                position: absolute;
+                left:50%;
+                transform: translateX(-50%);
+            }
+        }
+        &-y{
+            & > *{
+                position: absolute;
+                top:50%;
+                transform: translateY(-50%);
+            }
+        }
+        &-xy{
+            & > *{
+                position: absolute;
+                top:50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+            }
+        }
+    }
+
+
+
+
+
+
+
+//spacing
+
+    //margins and padding
+    $spacing: (
+        xxlarge : 6,
+        xlarge  : 4,
+        large   : 2,
+        medium  : 1,
+        small   : 0.5,
+        xsmall  : 0.25,
+    );
+    @each $item, $value in $spacing{
+        .padding-#{$item}{
+            padding: #{ $paddingUnit * $value};
+        }
+        .padding-y-#{$item}{
+            padding-top: #{ $paddingUnit * $value};
+            padding-bottom: #{ $paddingUnit * $value};
+        }
+        .padding-x-#{$item}{
+            padding-left: #{ $paddingUnit * $value};
+            padding-right: #{ $paddingUnit * $value};
+            @include smaller( $smallTiny ){
+                padding-left: #{ $paddingUnit * $value / 2};
+                padding-right: #{ $paddingUnit * $value / 2};
+            }
+        }
+
+        .margin{
+            &-top-#{$item}{
+                margin-top: #{ $paddingUnit * $value};
+            }
+            &-bottom-#{$item}{
+                margin-bottom: #{ $paddingUnit * $value};
+            }
+            &-left-#{$item}{
+                margin-left: #{ $paddingUnit * $value};
+            }
+            &-right-#{$item}{
+                margin-right: #{ $paddingUnit * $value};
+            }
+        }
+    }
+
+
+    //list spacing
+    .vert-list-spacing{
+        &-large{
+            & > *{
+                margin-top: $paddingUnit * 2;
+                margin-bottom: $paddingUnit * 2;
+            }
+        }
+        &-medium{
+            & > *{
+                margin-top: $paddingUnit;
+                margin-bottom: $paddingUnit;
+            }
+        }
+        &-small{
+            & > *{
+                @include larger($small){
+                    margin-top: $paddingUnit / 2;
+                    margin-bottom: $paddingUnit / 2;
+                }
+                @include smaller($small){
+                    margin-top: $paddingUnit / 4;
+                    margin-bottom: $paddingUnit / 4;
+                }
+            }
+        }
+        &-xsmall{
+            & > *{
+                margin-top: $paddingUnit / 8;
+                margin-bottom: $paddingUnit / 8;
+            }
+        }
+        &-large, &-medium, &-small, &-xsmall{
+            & > *:first-of-type{
+                margin-top:0;
+            }
+            & > *:last-of-type{
+                margin-bottom:0;
+            }
+        }
+    }
+    .horz-list-spacing{
+        &-large{
+            & > .list-item + .list-item{
+                margin-left: $paddingUnit * 2;
+            }
+        }
+        &-medium{
+            & > .list-item + .list-item{
+                margin-left: $paddingUnit;
+            }
+        }
+        &-small{
+            & > .list-item + .list-item{
+                margin-left: $paddingUnit / 2;
+            }
+        }
+        &-xsmall{
+            & > .list-item + .list-item{
+                margin-left: $paddingUnit / 4;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+//sizes
+
+    //widths
+    $viewportWidths: (
+        twenty: 20,
+        twentyFive: 25,
+        thirty: 30,
+        oneThird: 33.333333,
+        thirtyFive: 35,
+        forty: 40,
+        fortyFive: 45,
+        fifty: 50,
+        fiftyFive: 55,
+        sixty: 60,
+        sixtyFive: 65,
+        twoThird: 66.666666,
+        seventy: 70,
+        seventyFive: 75,
+        eighty: 80,
+        eightyFive: 85,
+        ninety: 90,
+        ninetyFive: 95,
+        full: 100
+    );
+    @each $item, $value in $viewportWidths{
+        .viewport-width-#{$item}{
+            width: #{$value}vw;
+        }
+        .viewport-min-width-#{$item}{
+            min-width: #{$value}vw
+        }
+    }
+    @each $item, $value in $viewportWidths{
+        .percentage-width-#{$item}{
+            width: #{$value + %};
+        }
+    }
+
+    .minFullWidth{
+        min-width:100vw;
+    }
+    .fullWidth{
+        width:100vw;
+    }
+    .fullWidth-percent{
+        width: 100%;
+    }
+
+
+    //heights
+    .minFullHeight{
+        min-height: 100vh;
+    }
+    .fullHeight{
+        height: 100vh;
+    }
+    .fullHeight-minusMenu{
+        min-height: calc(100vh - 2.95rem); //100vh minus header value
+    }
+
+    @each $item, $value in $viewportWidths{
+        .viewport-height-#{$item}{
+            height: #{$value}vh;
+        }
+    }
+    @each $item, $value in $viewportWidths{
+        .percentage-height-#{$item}{
+            height: #{$value + %};
+        }
+    }
+
+
+
+
+//main wrapper
+.innerWrap{
+    position: relative;
+    //max-width: 1400px;
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+    //padding: 0 3vw;
+    &.addPadding{
+        padding: 0 2rem;
+    }
+    &.large{
+        max-width:1400px;
+        &.addPadding{
+            max-width: calc(1400px + 10%);
+            padding: 0 5%;
+        }
+    }
+    &.medium{
+        max-width:1200px;
+        &.addPadding{
+            padding: 0 4%;
+        }
+    }
+    &.small{
+        max-width:1000px;
+        &.addPadding{
+            padding: 0 3%;
+        }
+    }
+    &.xsmall-min{
+        min-width: 800px;
+        &.addPadding{
+            padding: 0 3%;
+        }
+    }
+    &.tiny{
+        max-width:500px;
+        &.addPadding{
+            padding: 0 2%;
+        }
+    }
+}
+
+
+
+
+
+//image sizing
+.objectFit{
+    &-cover{
+        object-fit: cover;
+    }
+    &-contain{
+        object-fit: contain;
+    }
+}
+
+
+@include larger( $mediumSmall ){
+    .desktop-hide{
+        display: none;
+    }
+}
+@include smaller( $mediumSmall ){
+    .mobile-hide{
+        display: none;
+    }
+}
+@include larger( $tiny ){
+    .phone-show{
+        display:none;
+    }
+}
+@include smaller( $tiny ){
+    .phone-hide{
+        display:none !important;
+    }
+}
+
+
+
+
+//display
+.noData{
+    display: none;
+}
