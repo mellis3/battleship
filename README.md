@@ -1,6 +1,10 @@
 # Battleship
 React/Javascript based implementation of the game of battleship
 
+### Usage
+* Download the source code and run and import it into a new instance of Create-React-App, then run the dev server using "npm start".
+* Download the build directory and open index.html in a browser to preview the latest build and play the game.
+
 ### Notes
 * As a scope constraint, this implementation has been built using standards for modern browsers, like CSS Grid and ES6. It will have major issues in older browsers like IE < 11.
 These issues could easily be remedied with fallback code for CSS and polyfills for JS.
