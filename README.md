@@ -8,6 +8,7 @@ React/Javascript based implementation of the game of battleship
 ### Notes
 * As a scope constraint, this implementation has been built using standards for modern browsers, like CSS Grid and ES6. It will have major issues in older browsers like IE < 11.
 These issues could easily be remedied with fallback code for CSS and polyfills for JS.
+* As an additional constraint, the app has only been styled to work on desktop devices. Additional CSS could easily be added to adapt the layout to smaller devices.
 * Built using Create-React-App
 
 ### Components
